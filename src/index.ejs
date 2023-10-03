@@ -34,7 +34,9 @@
   <script type="systemjs-importmap">
     {
       "imports": {
-        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js"
+        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
+        "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/index.min.js"
       }
     }
   </script>
@@ -43,16 +45,17 @@
   <!-- Add your organization's prod import map URL to this script's src  -->
   <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
 
-  <% if (isLocal) { %>
+  <!-- <% if (isLocal) { %> -->
   <script type="systemjs-importmap">
     {
       "imports": {
         "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
-        "@cm-sigoo/root-config": "//localhost:9000/cm-sigoo-root-config.js"
+        "@cm-sigoo/root-config": "https://<%= htmlWebpackPlugin.options.host %>/cm-sigoo-root-config.js",
+        "@cm-sigoo/utilities": "https://sigoo-mf-utilities-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-utilities.js"
       }
     }
   </script>
-  <% } %>
+  <!-- <% } %> -->
 
   <!--
     If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
