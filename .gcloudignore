@@ -2,3 +2,9 @@ node_modules/
 .yarn
 yarn.lock
 package-lock.json
+dist/
+.eslint
+.gcloudignore
+.gitignore
+.prettierignore
+example/
