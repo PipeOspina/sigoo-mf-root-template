@@ -35,8 +35,8 @@
     {
       "imports": {
         "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
-        "react": "https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js",
-        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/index.min.js"
+        "react": "https://unpkg.com/react@^18.2.0/umd/react.development.js",
+        "react-dom": "https://unpkg.com/react-dom@^18.2.0/umd/react-dom.development.js"
       }
     }
   </script>
@@ -51,7 +51,7 @@
       "imports": {
         "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
         "@cm-sigoo/root-config": "https://<%= htmlWebpackPlugin.options.host %>/cm-sigoo-root-config.js",
-        "@cm-sigoo/common-react": ""
+        "@cm-sigoo/common-react": "https://sigoo-mf-common-react-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-common-react.js"
       }
     }
   </script>

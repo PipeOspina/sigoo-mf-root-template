@@ -12,10 +12,10 @@ Haber creado una aplicación Single SPA con el framework de **"react"** especifi
 
 Antes de instalar las dependencias se recomienda copiar el archivo **[.yarnrc.yml]()** en la raíz del proyecto con el fin de definir **node_modules** como carpeta contenedora de dependencias y evitar errores en los editores de código.
 
-Además, hacer un upgrade de las dependencias de **@types/react** y **@types/react-dom**:
+Además, hacer un upgrade de las dependencias de **react**, **react-dom**, **@types/react** y **@types/react-dom**:
 
 ```bash
-yarn up @types/react @types/react-dom
+yarn up react react-dom @types/react @types/react-dom
 ```
 
 Se recomienda también instalar la librería de [MaterialUI](https://mui.com/material-ui/getting-started/) como se especifica en su [documentación](https://mui.com/material-ui/getting-started/installation/):
@@ -62,8 +62,6 @@ Para tener una version actualizada del modulo, ingresa al archivo ***[export.dec
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 
-const port = process.env.port || 8080;
-
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "cm-sigoo",
@@ -73,6 +71,9 @@ module.exports = (webpackConfigEnv, argv) => {
 (+) standaloneOptions: {
 (+)   importMap: {
 (+)     imports: {
+(+)       react: "https://unpkg.com/react@^18.2.0/umd/react.development.js",
+(+)       "react-dom":
+(+)       "https://unpkg.com/react-dom@^18.2.0/umd/react-dom.development.js",
 (+)       "@cm-sigoo/common-react":
 (+)         "https://sigoo-mf-common-react-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-common-react.js",
 (+)     },
@@ -82,7 +83,7 @@ module.exports = (webpackConfigEnv, argv) => {
 
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object
-(+) externals: [/^@cm-sigoo\/.+/],
+(+) externals: [/^@cm-sigoo\/.+/, "react", "react-dom"],
   });
 };
 ```
@@ -138,7 +139,7 @@ localStorage.setItem('devtools', true)
 
 - Buscamos en la columna de ***Module Name*** el nombre de nuestra aplicación **"@cm-sigoo/[app-name]"** y damos click sobre él.
 
-- Digitamos ***`localhost:[port]/cm-sigoo-[app-name].js`*** y damos click en el botón **"Apply override"**
+- Digitamos ***`http://localhost:[port]/cm-sigoo-[app-name].js`*** y damos click en el botón **"Apply override"**
 
 - Recargamos la página y comprobamos
 
