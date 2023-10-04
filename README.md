@@ -41,7 +41,7 @@ Si seleccionaste **"react"** como framework para la aplicación, puedes ir a ***
 
 Una vez creada y desplegada la aplicación Single SPA, puedes clonar este repositorio como root del proyecto Microfrontend, y seguir la configuración recomendada para tu proyecto:
 
-- Ir al archivo ***[/src/index.ejs](https://github.com/PipeOspina/sigoo-mf-root-template/blob/5511ddb68440c4328e94ee27c7579d1902a30547/src/index.ejs#L55C114-L55C114)***, eliminar la linea 52 e insertar el importmap de tu aplicación a partir de la linea 54:
+- Ir al archivo ***[/src/index.ejs](https://github.com/PipeOspina/sigoo-mf-root-template/blob/5511ddb68440c4328e94ee27c7579d1902a30547/src/index.ejs#L55C114-L55C114)***, eliminar la linea 52 e insertar el importmap de tu aplicación en la linea 54:
 
 ```html
   <script type="systemjs-importmap">
@@ -49,8 +49,7 @@ Una vez creada y desplegada la aplicación Single SPA, puedes clonar este reposi
       "imports": {
  (-) -> "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
         "@cm-sigoo/root-config": "https://<%= htmlWebpackPlugin.options.host %>/cm-sigoo-root-config.js",
-        "@cm-sigoo/utilities": "https://sigoo-mf-utilities-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-utilities.js",
-        "@cm-sigoo/toolbar": "https://sigoo-mf-toolbar-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-toolbar.js",
+        "@cm-sigoo/common-react": "https://sigoo-mf-common-react-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-common-react.js",
  (+) -> "@cm-sigoo/[app-name]": "[app-url]/cm-sigoo-[app-name].js"
       }
     }

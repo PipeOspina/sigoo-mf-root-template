@@ -26,15 +26,37 @@ yarn add @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 Para instalar el tema definido para **Sigoo Apps** en la aplicación puedes seguir las siguientes instrucciones:
 
-- Declarar el módulo de **"@cm-sigoo/utilities"** en el archivo ***/src/declarations.d.ts*** de la aplicación:
+- Declarar el módulo de **"@cm-sigoo/common-react"** en el archivo ***/src/declarations.d.ts*** de la aplicación:
 
 ```typescript
-declare module "@cm-sigoo/utilities" {
-  const muiTheme: import("@mui/material").Theme;
+declare module "@cm-sigoo/common-react" {
+  type FC<P = {}> = import("react").FC<P>;
+  type PropsWithChildren<P = {}> = import("react").PropsWithChildren<P>;
+
+  type Theme = import("@mui/material").Theme;
+
+  // Components
+  /// Atoms
+  const Logo: FC<import("react").SVGProps<SVGSVGElement>>;
+  /// Molecules
+  /// Organisms
+  const AppLayout: FC<
+    PropsWithChildren<{
+      label?: string;
+      theme?: Theme;
+    }>
+  >;
+
+  // Utils
+  const theme: Theme;
+
+  export { AppLayout, Logo, theme };
 }
 ```
 
-- Agregar el modulo de **"@cm-sigoo/utilities"** en los **externals** del archivo ***webpack.config.js*** y su **importmap** para el desarrollo local:
+Para tener una version actualizada del modulo, ingresa al archivo ***[export.declarations.d.ts](https://github.com/PipeOspina/sigoo-mf-common-react/blob/master/export.declarations.d.ts)*** del proyecto de **[sigoo-mf-common-react](https://github.com/PipeOspina/sigoo-mf-common-react)**
+
+- Agregar el modulo de **"@cm-sigoo/common-react"** en los **externals** del archivo ***webpack.config.js*** y su **importmap** para el desarrollo local:
 
 ```javascript
 const { merge } = require("webpack-merge");
@@ -51,8 +73,8 @@ module.exports = (webpackConfigEnv, argv) => {
 (+) standaloneOptions: {
 (+)   importMap: {
 (+)     imports: {
-(+)       "@cm-sigoo/utilities":
-(+)         "https://sigoo-mf-utilities-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-utilities.js",
+(+)       "@cm-sigoo/common-react":
+(+)         "https://sigoo-mf-common-react-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-common-react.js",
 (+)     },
 (+)   },
 (+) },
@@ -65,87 +87,19 @@ module.exports = (webpackConfigEnv, argv) => {
 };
 ```
 
-- Importar ***muiTheme*** desde la librería de utilidades de la Suite Sigoo y encapsular la aplicación en el componente **ThemeProvider** de MaterialUI en el archivo ***/src/root.component.tsx***:
+- Importar ***AppLayout*** desde la librería de **common-react** de la Suite Sigoo y encapsular la aplicación dentro del mismo en el archivo ***/src/root.component.tsx***:
 
 ```typescript
-import { muiTheme } from "@cm-sigoo/utilities";
-import { ThemeProvider } from "@mui/material";
+import { AppLayout } from "@cm-sigoo/common-react";
 import App from "[path-to-app]";
 
 export default function Root() {
   return (
-    <ThemeProvider theme={muiTheme}>
+    <AppLayout label="[app-label-name]">
       <App />
-    </ThemeProvider>
+    </AppLayout>
   );
 }
-```
-
-Si deseas puedes importar también la aplicación de **Toolbar** propuesta para la Suite Sigoo así:
-
-- Declarar el módulo de **"@cm-sigoo/toolbar"** en el archivo ***/src/declarations.d.ts*** de la aplicación:
-
-```typescript
-declare module "@cm-sigoo/toolbar" {
-  const toolbarConfig: import("single-spa-react").ReactAppOrParcel<{
-    appLabel?: string;
-    children?: React.ReactNode;
-  }>;
-  export default toolbarConfig;
-}
-```
-
-- Actualizar el archivo ***/src/root.component.tsx***:
-
-```typescript
-(+) import toolbarConfig from "@cm-sigoo/toolbar";
-    import { muiTheme } from "@cm-sigoo/utilities";
-    import { ThemeProvider } from "@mui/material";
-(+) import Parcel from "single-spa-react/parcel";
-    import App from "[path-to-app]";
-
-    export default function Root() {
-      return (
-        <ThemeProvider theme={muiTheme}>
-(+)       <Parcel config={toolbarConfig} appLabel="[app-label-name]">
-            <App {...props} />
-(+)       </Parcel>
-        </ThemeProvider>
-      );
-    }
-```
-
-- Agregar el **importmap** de **"@cm-sigoo/toolbar"** para el desarrollo local:
-
-```javascript
-const { merge } = require("webpack-merge");
-const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
-
-const port = process.env.port || 8080;
-
-module.exports = (webpackConfigEnv, argv) => {
-  const defaultConfig = singleSpaDefaults({
-    orgName: "cm-sigoo",
-    projectName: "toolbar",
-    webpackConfigEnv,
-    argv,
-    standaloneOptions: {
-      importMap: {
-        imports: {
-          "@cm-sigoo/utilities":
-            "https://sigoo-mf-utilities-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-utilities.js",
-(+)       "@cm-sigoo/toolbar":
-(+)         "https://sigoo-mf-toolbar-dot-cm-single-spa-mf.ue.r.appspot.com/cm-sigoo-toolbar.js",
-        },
-      },
-    },
-  });
-
-  return merge(defaultConfig, {
-    // modify the webpack config however you'd like to by adding to this object
-    externals: [/^@cm-sigoo\/.+/],
-  });
-};
 ```
 
 - Levantar el proyecto para probar en local:
