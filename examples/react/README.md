@@ -11,22 +11,22 @@ Haber creado una aplicación Single SPA con el framework de **"react"** especifi
 > Para iniciar la aplicación se recomienda tener instalado el CLI de ***[create-single-spa](https://single-spa.js.org/docs/create-single-spa)*** para crear la aplicación inicial y configurar su funcionalidad.
 >
 > Se recomienda además usar Yarn en una versión >=3 para el manejo de paquetes y NodeJS 18 para inicializar este contenedor y sus aplicaciones.
-
-## Instalación
-
-Crear una aplicación Single SPA con el comando
-
-```bash
-create-single-spa --skipInstall
-```
-
-Seguir indicaciones del CLI con las opciones recomendadas:
-
-- Seleccionar **"single-spa application / parcel"** en ***"Select type to generate"***
-- Seleccionar **"react"** en ***"Wich framework do you want to use?"***
-- Seleccionar **"yarn"** como manejador de paquetes en ***"Which package manager do you want to use?"***
-- Aceptar el uso de Typescript en la aplicación
-- Definir **"cm-sigoo"** como ***"Organization name"***
+>
+> ## Instalación
+>
+> Crear una aplicación Single SPA con el comando
+>
+> ```bash
+> create-single-spa --skipInstall
+> ```
+> 
+> Seguir indicaciones del CLI con las opciones recomendadas:
+> 
+> - Seleccionar **"single-spa application / parcel"** en ***"Select type to generate"***
+> - Seleccionar **"react"** en ***"Wich framework do you want to use?"***
+> - Seleccionar **"yarn"** como manejador de paquetes en ***"Which package manager do you want to use?"***
+> - Aceptar el uso de Typescript en la aplicación
+> - Definir **"cm-sigoo"** como ***"Organization name"***
 
 ## Configuración
 
