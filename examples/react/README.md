@@ -6,16 +6,36 @@ En este ejemplo encontraras algunos cambios en los archivos de configuración de
 
 ### Prerrequisitos
 
-Haber creado una aplicación Single SPA con el framework de **"react"** especificado en el archivo [README.md](https://github.com/PipeOspina/sigoo-mf-root-template/tree/master) del root.
+Haber creado una aplicación Single SPA con el framework de **"react"** especificado en el archivo [README.md](https://github.com/PipeOspina/sigoo-mf-root-template/tree/master) del root...
+
+> Para iniciar la aplicación se recomienda tener instalado el CLI de ***[create-single-spa](https://single-spa.js.org/docs/create-single-spa)*** para crear la aplicación inicial y configurar su funcionalidad.
+>
+> Se recomienda además usar Yarn en una versión >=3 para el manejo de paquetes y NodeJS 18 para inicializar este contenedor y sus aplicaciones.
+
+## Instalación
+
+Crear una aplicación Single SPA con el comando
+
+```bash
+create-single-spa --skipInstall
+```
+
+Seguir indicaciones del CLI con las opciones recomendadas:
+
+- Seleccionar **"single-spa application / parcel"** en ***"Select type to generate"***
+- Seleccionar **"react"** en ***"Wich framework do you want to use?"***
+- Seleccionar **"yarn"** como manejador de paquetes en ***"Which package manager do you want to use?"***
+- Aceptar el uso de Typescript en la aplicación
+- Definir **"cm-sigoo"** como ***"Organization name"***
 
 ## Configuración
 
-Antes de instalar las dependencias se recomienda copiar el archivo **[.yarnrc.yml]()** en la raíz del proyecto con el fin de definir **node_modules** como carpeta contenedora de dependencias y evitar errores en los editores de código.
+Antes de instalar las dependencias se recomienda copiar el archivo **[.yarnrc.yml](https://github.com/PipeOspina/sigoo-mf-root-template/blob/master/.yarnrc.yml)** en la raíz del proyecto con el fin de definir **node_modules** como carpeta contenedora de dependencias y evitar errores en los editores de código.
 
-Además, hacer un upgrade de las dependencias de **react**, **react-dom**, **@types/react** y **@types/react-dom**:
+Además, hacer un upgrade de las dependencias de **react**, **react-dom**, **@types/react** , **@types/react-dom** y **@testing-library/react**:
 
 ```bash
-yarn up react react-dom @types/react @types/react-dom
+yarn up react react-dom @types/react @types/react-dom @testing-library/react
 ```
 
 Se recomienda también instalar la librería de [MaterialUI](https://mui.com/material-ui/getting-started/) como se especifica en su [documentación](https://mui.com/material-ui/getting-started/installation/):
@@ -44,6 +64,9 @@ declare module "@cm-sigoo/common-react" {
     PropsWithChildren<{
       label?: string;
       theme?: Theme;
+      search?: boolean;
+      searchValue?: string;
+      onSearchChange?: (value: string) => void;
     }>
   >;
 
@@ -88,17 +111,51 @@ module.exports = (webpackConfigEnv, argv) => {
 };
 ```
 
-- Importar ***AppLayout*** desde la librería de **common-react** de la Suite Sigoo y encapsular la aplicación dentro del mismo en el archivo ***/src/root.component.tsx***:
+- Importar el componente de ***AppLayout*** y el tema propuesto desde la librería de **common-react** de la Suite Sigoo, ademas del componente de ***ThemeProvider*** de MaterialUI, aplicar el tema y encapsular la aplicación dentro de estos componentes en el archivo ***/src/root.component.tsx***:
 
 ```typescript
-import { AppLayout } from "@cm-sigoo/common-react";
+import { AppLayout, theme } from "@cm-sigoo/common-react";
 import App from "[path-to-app]";
 
 export default function Root() {
   return (
-    <AppLayout label="[app-label-name]">
-      <App />
-    </AppLayout>
+    <ThemeProvider theme={theme}>
+      <AppLayout label="[app-label-name]">
+        <App />
+      </AppLayout>
+    </ThemeProvider>
+  );
+}
+```
+
+Puedes también sobrescribir componentes del tema de MaterialUI y aplicarlo a la aplicación:
+
+```typescript
+// theme.ts
+import { theme } from "@cm-sigoo/common-react";
+
+const muiTheme = createTheme(theme, {
+  palette: {
+    secondary: {
+      main: "#FF0000",
+    },
+  },
+});
+
+export default muiTheme;
+
+// root.component.tsx
+import { AppLayout } from "@cm-sigoo/common-react";
+import App from "[path-to-app]";
+import theme from "./theme"
+
+export default function Root() {
+  return (
+    <ThemeProvider theme={theme}>
+      <AppLayout label="[app-label-name]" theme={theme}>
+        <App />
+      </AppLayout>
+    </ThemeProvider>
   );
 }
 ```
